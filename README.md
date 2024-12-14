@@ -1,9 +1,3 @@
-Sure, here's a sample README content for your project:
-
----
-
-# Snort Alert Log Analyzer
-
 ## Overview
 This project is designed to monitor a Snort alert log file and automatically take action based on specific alerts. When a predefined alert is detected, the program extracts the IP address associated with the alert and blocks it using `iptables`.
 
