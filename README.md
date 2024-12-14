@@ -54,5 +54,3 @@ An example of an alert log entry that would trigger the program:
 This project is licensed under the MIT License.
 
 ---
-
-Feel free to modify this README content as needed for your project! 😊
