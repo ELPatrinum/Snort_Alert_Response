@@ -9,6 +9,19 @@
 #include <ctime>
 #include <csignal>
 
+
+void print_name(void)
+{
+    std::cout << "\033[1;35m┏┓        ┏┓┓      ┳┓            " << std::endl;
+    std::cout << "┗┓┏┓┏┓┏┓╋ ┣┫┃┏┓┏┓╋ ┣┫┏┓┏┏┓┏┓┏┓┏┏┓" << std::endl;
+    std::cout << "┗┛┛┗┗┛┛ ┗━┛┗┗┗ ┛ ┗━┛┗┗ ┛┣┛┗┛┛┗┛┗ " << std::endl;
+    std::cout << "                        ┛         " << std::endl;
+    std::cout << "┓     ┏┓┓ ┏┓     •       " << std::endl;
+    std::cout << "┣┓┓┏  ┣ ┃ ┃┃┏┓╋┏┓┓┏┓┓┏┏┳┓" << std::endl;
+    std::cout << "┗┛┗┫  ┗┛┗┛┣┛┗┻┗┛ ┗┛┗┗┻┛┗┗" << std::endl;
+    std::cout << "   ┛                      \033[0m" << std::endl;
+}
+
 std::string getCurrentDateTime()
 {
     auto t = std::time(nullptr);
@@ -29,16 +42,16 @@ std::string extractIPAddress(const std::string& input)
     return (input);
 }
 
-
 void signalHandler(int signum)
 {
     (void)signum;
-    std::cout << "\033[1;35m(SIGINT) Exiting...\033[0;37m" << std::endl;
+    std::cout << "\n\033[1;35m(SIGINT) Exiting...\033[0m" << std::endl;
     exit(0);
 }
 
 int main()
 {
+    print_name();
     signal(SIGINT, signalHandler);
     std::string datetime = getCurrentDateTime();
     std::string logfile = datetime + "_S_A_R.log";
@@ -48,11 +61,11 @@ int main()
 
     if (!file.is_open())
     {
-        std::cerr << "\033[1;31mError opening file: \033[0;37m" << snort_log << std::endl;
+        std::cerr << "\033[1;31mError opening file: \033[0;37m" << snort_log <<  "\033[0m" << std::endl;
         return (1);
     }
     else
-        std::cout << snort_log << "\033[1;32m opened successfully \033[0;37m" << std::endl;
+        std::cout << "\033[1;32mLog file \033[1;37m" << snort_log << "\033[1;32m opened successfully \033[0m" << std::endl;
 
     file.seekg(0, std::ios::end);
 
@@ -61,7 +74,7 @@ int main()
 
     if (!l_file.is_open())
     {
-        std::cerr << "Error opening file: " << logfile << std::endl;
+        std::cerr << "\033[1;31mError opening file: Make sure to run the S_A_R with sudo" << logfile << "\033[0m" << std::endl;
         return (1);
     }
     std::regex ip_pattern(R"((\d{1,3}\.){3}\d{1,3}(:\d{1,5})?)");
@@ -69,17 +82,12 @@ int main()
     int counter = 0;
     while (true)
     {
-        if (std::cin.eof())
-		{
-			std::cerr << "\033[38;5;214mEOF received. Exiting...\033[0;37m" << std::endl;
-			break;
-		}
         if (std::getline(file, line))
         {
             if (line.empty())
                 continue;
             counter ++;
-            std::cout << "\033[1;33mA NEW ALERT IS HERE !!! ALERT COUNTER IS : \033[0;37m" << counter << std::endl;
+            std::cout << "\033[1;33mA NEW ALERT IS HERE !!! ALERT COUNTER IS : \033[1;37m" << counter << "\033[0m" << std::endl;
 
             for (const auto& alert_keyword : alert_keywords)
             {
@@ -89,9 +97,9 @@ int main()
                     if (std::regex_search(line, match, ip_pattern) && !match.empty())
                     {
                         std::string ip = extractIPAddress(match.str(0));
-                        std::cout << "\033[1;32mBlocking IP: \033[0;37m" << ip << "\033[1;32m due to alert: \033[0;37m" << alert_keyword << std::endl;
+                        std::cout << "\033[1;32mBlocking IP: \033[1;37m" << ip << "\033[1;32m due to alert: \033[1;37m" << alert_keyword << "\033[0m" << std::endl;
                         std::string command = "iptables -A INPUT -s " + ip + " -j DROP";
-                        std::system(command.c_str());
+                        // std::system(command.c_str());
                         l_file << getCurrentDateTime() << " Blocking IP: " << ip << " due to alert: " << alert_keyword << std::endl;
                     }
                     break;
