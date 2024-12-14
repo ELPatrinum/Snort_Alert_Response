@@ -99,7 +99,7 @@ int main()
                         std::string ip = extractIPAddress(match.str(0));
                         std::cout << "\033[1;32mBlocking IP: \033[1;37m" << ip << "\033[1;32m due to alert: \033[1;37m" << alert_keyword << "\033[0m" << std::endl;
                         std::string command = "iptables -A INPUT -s " + ip + " -j DROP";
-                        // std::system(command.c_str());
+                        std::system(command.c_str());
                         l_file << getCurrentDateTime() << " Blocking IP: " << ip << " due to alert: " << alert_keyword << std::endl;
                     }
                     break;
