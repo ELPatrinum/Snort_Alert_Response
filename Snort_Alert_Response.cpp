@@ -108,9 +108,9 @@ int main()
         }
         else if (file.eof())
         {
-            file.clear();
-			file.seekg(0, std::ios::cur);
-            usleep(500);
+		file.clear();
+		file.seekg(0, std::ios::cur);
+		usleep(500);
         }
         else
         {
