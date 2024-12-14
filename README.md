@@ -15,14 +15,14 @@ This project is designed to monitor a Snort alert log file and automatically tak
 To build the project, use the following command:
 
 ```sh
-g++ -o snort_alert_analyzer snort_alert_analyzer.cpp
+make
 ```
 
 ## Running the Project
 Run the compiled program with the following command:
 
 ```sh
-sudo ./snort_alert_analyzer
+sudo ./S_A_R
 ```
 
 ## Code Explanation
