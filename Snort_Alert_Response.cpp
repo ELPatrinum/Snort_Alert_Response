@@ -32,6 +32,7 @@ std::string extractIPAddress(const std::string& input)
 
 void signalHandler(int signum)
 {
+    (void)signum;
     std::cout << "\033[1;35m(SIGINT) Exiting...\033[0;37m" << std::endl;
     exit(0);
 }
@@ -90,7 +91,7 @@ int main()
                         std::string ip = extractIPAddress(match.str(0));
                         std::cout << "\033[1;32mBlocking IP: \033[0;37m" << ip << "\033[1;32m due to alert: \033[0;37m" << alert_keyword << std::endl;
                         std::string command = "iptables -A INPUT -s " + ip + " -j DROP";
-                        Uncomment to execute: std::system(command.c_str());
+                        std::system(command.c_str());
                         l_file << getCurrentDateTime() << " Blocking IP: " << ip << " due to alert: " << alert_keyword << std::endl;
                     }
                     break;
