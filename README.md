@@ -9,7 +9,7 @@ This project is designed to monitor a Snort alert log file and automatically tak
 ## Prerequisites
 - A working installation of Snort with logging enabled.
 - C++ compiler (e.g., g++).
-- Root privileges for modifying `iptables` rules.
+- Root privileges for opening the /var.log/snort/alert and modifying `iptables` rules.
 
 ## Building the Project
 To build the project, use the following command:
